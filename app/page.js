@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import Search from '../app/components/Search'
 
 async function getData() {
   try {
@@ -14,12 +15,9 @@ export default async function Home() {
   const pokemonData = await getData()
   return (
     <div>
-      <h2 className='text-center text-3xl font-semibold'>Poke Desk</h2>
-
+      <Search />
       {pokemonData.map((poke, i) => (
-        <div key={i}>
-          <h1>{poke.name}</h1>
-        </div>
+        <div key={i}></div>
       ))}
     </div>
   )
