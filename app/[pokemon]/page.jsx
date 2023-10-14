@@ -1,30 +1,29 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { useRouter } from 'next/navigation'
+import { useParams } from 'next/navigation'
 
 function Page() {
   const [pokemon, setPokemon] = useState(null)
-  const router = useRouter()
-  const { name } = router
+  const router = useParams()
+  const name = router
+  console.log(name.pokemon)
 
   useEffect(() => {
     const fetchPokemon = async () => {
       try {
         const response = await fetch(
-          `https://pokeapi.co/api/v2/pokemon/${name}`
+          `https://pokeapi.co/api/v2/pokemon/${name.pokemon}`
         )
         const data = await response.json()
         setPokemon(data)
-        console.log(response,'vbjbvjbvj')
+        console.log(response, 'vbjbvjbvj')
       } catch (error) {
         console.log(error)
       }
     }
-    if (name) {
-      fetchPokemon()
-    }
-  }, [name])
+    fetchPokemon()
+  }, [])
 
   return (
     <div>
