@@ -1,26 +1,43 @@
-import { useParams } from 'next/navigation'
+'use client'
 
-async function getData({ params }) {
-  try {
-    const id = params
-    const response = await fetch(`https://pokeapi.co/api/v2/${id}`)
-    const data = await response.json()
-    return data
-  } catch (error) {
-    console.log(error)
-  }
-}
+import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 
-async function page({ params }) {
-  const id = params
+function Page() {
+  const [pokemon, setPokemon] = useState(null)
+  const router = useRouter()
+  const { name } = router
 
-  const pokemonData = await getData()
+  useEffect(() => {
+    const fetchPokemon = async () => {
+      try {
+        const response = await fetch(
+          `https://pokeapi.co/api/v2/pokemon/${name}`
+        )
+        const data = await response.json()
+        setPokemon(data)
+        console.log(response,'vbjbvjbvj')
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    if (name) {
+      fetchPokemon()
+    }
+  }, [name])
 
   return (
     <div>
-      <h2></h2>
+      <h2>Hello</h2>
+      {pokemon && (
+        <div>
+          <h3>{pokemon.name}</h3>
+          <img src={pokemon.sprites.front_default} alt={pokemon.name} />
+          {/* Display other Pokémon details as needed */}
+        </div>
+      )}
     </div>
   )
 }
 
-export default page
+export default Page
