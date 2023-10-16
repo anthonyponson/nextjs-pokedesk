@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import React, { useState, useEffect } from 'react'
 
-function Search() {
+function Search({ handleSearch }) {
   const [pokemonData, setPokemonData] = useState([])
   const [allPokemonData, setAllPokemonData] = useState([])
 
@@ -24,21 +24,21 @@ function Search() {
     fetchData()
   }, [])
 
-  function handleSearch(searchTerm) {
-    if (!searchTerm) {
-      // If the search term is empty, display all Pokémon
-      setPokemonData(allPokemonData)
-    } else {
-      // Filter Pokémon based on the entered name
-      const filteredPokemon = allPokemonData.filter(poke =>
-        poke.name.toLowerCase().includes(searchTerm.toLowerCase())
-      )
-      setPokemonData(filteredPokemon)
-    }
-  }
+  // function handleSearch(searchTerm) {
+  //   if (!searchTerm) {
+  //     // If the search term is empty, display all Pokémon
+  //     setPokemonData(allPokemonData)
+  //   } else {
+  //     // Filter Pokémon based on the entered name
+  //     const filteredPokemon = allPokemonData.filter(poke =>
+  //       poke.name.toLowerCase().includes(searchTerm.toLowerCase())
+  //     )
+  //     setPokemonData(filteredPokemon)
+  //   }
+  // }
 
   return (
-    <div>
+    <div className='w-[90%] mx-auto'>
       <h2 className='text-center text-3xl font-semibold'>Poke Desk</h2>
       <input
         className='text-black'
@@ -46,20 +46,20 @@ function Search() {
         placeholder='Enter Pokémon Name'
         onChange={e => handleSearch(e.target.value)}
       />
-      {/* Render the filtered or all Pokemon data here */}
-      {pokemonData.map((pokemon, i) => (
-        <Link href={`${pokemon.name}`}>
-          <div className='flex flex-col justify-center md:flex-row md:flex-wrap'>
-            <div className='lg:w-1/3 px-2' key={i}>
+
+      <div className='flex flex-wrap -mx-2'>
+        {pokemonData.map((pokemon, i) => (
+          <div className='w-full sm:w-1/2 md:w-1/3 px-2' key={i}>
+            <Link className='block' href={`/${pokemon.name}`}>
               <div className='bg-gray-200 p-2 rounded mb-4'>
                 <h2 className='text-xl text-blue-950 font-semibold'>
                   {pokemon.name}
                 </h2>
               </div>
-            </div>
+            </Link>
           </div>
-        </Link>
-      ))}
+        ))}
+      </div>
     </div>
   )
 }

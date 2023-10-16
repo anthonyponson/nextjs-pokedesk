@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import Search from '../app/components/Search'
+import Search from './components/Search'
 
 async function getData() {
   try {
@@ -16,9 +16,6 @@ export default async function Home() {
   return (
     <div>
       <Search />
-      {pokemonData.map((poke, i) => (
-        <div key={i}></div>
-      ))}
     </div>
   )
 }

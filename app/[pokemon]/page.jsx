@@ -29,8 +29,11 @@ function Page() {
       {pokemon && (
         <div>
           <h3>{pokemon.name}</h3>
-          <img className='h-20'
-            src={pokemon.sprites.front_shiny}
+          <img
+            className=''
+            height={150}
+            width={200}
+            src={pokemon.sprites.other.home.front_default}
             alt={pokemon.name}
           />
         </div>
