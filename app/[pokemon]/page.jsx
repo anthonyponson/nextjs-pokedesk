@@ -5,6 +5,8 @@ import { useParams } from 'next/navigation'
 
 function Page() {
   const [pokemon, setPokemon] = useState(null)
+  const [abilities, setAbilities] = useState([])
+  const [stats, setStats] = useState([])
   const router = useParams()
   const name = router
 
@@ -16,6 +18,8 @@ function Page() {
         )
         const data = await response.json()
         setPokemon(data)
+        setStats(data.stats)
+        setAbilities(data.abilities)
       } catch (error) {
         console.log(error)
       }
@@ -24,20 +28,39 @@ function Page() {
   }, [])
 
   return (
-    <div>
-      <h2>Hello</h2>
-      {pokemon && (
-        <div>
-          <h3>{pokemon.name}</h3>
-          <img
-            className=''
-            height={150}
-            width={200}
-            src={pokemon.sprites.other.home.front_default}
-            alt={pokemon.name}
-          />
+    <div className='w-[80%] flex flex-col justify-center items-center mx-auto'>
+      <div>
+        {pokemon && (
+          <div>
+            <h3>{pokemon.name}</h3>
+            <img
+              className=''
+              height={150}
+              width={200}
+              src={pokemon.sprites.other.home.front_default}
+              alt={pokemon.name}
+            />
+          </div>
+        )}
+
+        <div className='w-full bg-white rounded-lg shadow-lg p-4'>
+          {stats.map((stat, i) => (
+            <div className='mb-4' key={i}>
+              <h2 className='text-xl font-bold text-gray-800'>
+                {stat.stat.name}: {stat.base_stat}
+              </h2>
+              <div className='relative pt-1'>
+                <div className='overflow-hidden h-2 mb-4 text-xs flex rounded bg-gray-100'>
+                  <div
+                    style={{ width: `${(stat.base_stat / 120) * 100}%` }}
+                    className='shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-teal-300'
+                  ></div>
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
-      )}
+      </div>
     </div>
   )
 }

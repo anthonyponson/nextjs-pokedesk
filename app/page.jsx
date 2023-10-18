@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import Search from './components/Search'
+import PokemonGrid from './components/PokemonGrid'
 
 async function getData() {
   try {
@@ -15,7 +15,12 @@ export default async function Home() {
   const pokemonData = await getData()
   return (
     <div>
-      <Search />
+      <PokemonGrid />
+      {pokemonData.map((pokemon, i) => (
+        <div key={i}>
+
+        </div>
+      ))}
     </div>
   )
 }
