@@ -1,5 +1,4 @@
 'use client'
-
 import Link from 'next/link'
 import React, { useState, useEffect } from 'react'
 
@@ -14,8 +13,22 @@ function PokemonGrid() {
           'https://pokeapi.co/api/v2/pokemon?limit=1000'
         )
         const data = await response.json()
-        setPokemonData(data.results)
-        setAllPokemonData(data.results)
+        const results = data.results
+
+        const getPokemon = await Promise.all(
+          results.map(async pokemon => {
+            const id = pokemon.url.split('/')[6]
+            const image = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`
+
+            return {
+              id,
+              name: pokemon.name,
+              image,
+            }
+          })
+        )
+        setPokemonData(getPokemon)
+        setAllPokemonData(getPokemon) // Store all Pokémon data here
       } catch (error) {
         console.error(error)
       }
@@ -29,7 +42,7 @@ function PokemonGrid() {
       // If the search term is empty, display all Pokémon
       setPokemonData(allPokemonData)
     } else {
-      // Filter Pokémon based on the entered name
+      // Filter Pokémon based on the entered name, including images
       const filteredPokemon = allPokemonData.filter(poke =>
         poke.name.toLowerCase().includes(searchTerm.toLowerCase())
       )
@@ -55,13 +68,7 @@ function PokemonGrid() {
                 <h2 className='text-xl text-center text-blue-950 font-semibold'>
                   {pokemon.name}
                 </h2>
-                <img
-                  src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${
-                    i + 1
-                  }.png`}
-                  alt={pokemon.name}
-                  className='mx-auto'
-                />
+                <img src={pokemon.image} alt={pokemon.name} />
               </div>
             </Link>
           </div>
