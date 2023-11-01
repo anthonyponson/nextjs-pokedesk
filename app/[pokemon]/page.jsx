@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useParams } from 'next/navigation'
+import { resolve } from 'styled-jsx/css'
 
 function Page() {
   const [pokemon, setPokemon] = useState(null)
