@@ -1,5 +1,6 @@
 'use client'
 import Link from 'next/link'
+import logo from '@/public/next.svg'
 import loader from '@/public/loader.png'
 import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
@@ -22,24 +23,18 @@ function PokemonGrid() {
   const [pokemonData, setPokemonData] = useState([])
   const [allPokemonData, setAllPokemonData] = useState([])
   const [loading, setLoading] = useState(true)
-  const [page, setPage] = useState(0)
-  const [totalPages, setTotalPages] = useState(0)
+  const [page, setPage] = useState(1)
+  const [searchTerm, setSearchTerm] = useState("")
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `https://pokeapi.co/api/v2/pokemon?limit=20&offset=${
-            (page - 1) * 20
-          }`,
-          {
-            next: {
-              revalidate: 60,
-            },
-          }
+          'https://pokeapi.co/api/v2/pokemon?limit=20' // Fetch only 20 Pokémon initially
         )
         const data = await response.json()
         const results = data.results
+        console.log(results)
 
         const getPokemon = await Promise.all(
           results.map(async pokemon => {
@@ -53,85 +48,80 @@ function PokemonGrid() {
             }
           })
         )
-
-        setPokemonData(prevData => [...prevData, ...getPokemon])
-        setAllPokemonData(prevData => [...prevData, ...getPokemon])
-        setTotalPages(Math.ceil(data.count / 20))
-        setLoading(false)
+        setPokemonData(getPokemon)
+        setAllPokemonData(getPokemon) // Store all Pokémon data here
+        setLoading(false) // Set loading to false when data is fetched
       } catch (error) {
         console.error(error)
-        setLoading(false)
+        setLoading(false) // Set loading to false on error
       }
     }
 
     fetchData()
-  }, [page])
+  }, [])
 
   function handleSearch(searchTerm) {
+    setSearchTerm(searchTerm); // Update the searchTerm state
     if (!searchTerm) {
-      setPokemonData(allPokemonData)
+      setPokemonData(allPokemonData);
     } else {
-      const filteredPokemon = allPokemonData.filter(poke =>
+      const filteredPokemon = allPokemonData.filter((poke) =>
         poke.name.toLowerCase().includes(searchTerm.toLowerCase())
-      )
-      setPokemonData(filteredPokemon)
+      );
+      setPokemonData(filteredPokemon);
     }
   }
 
-  function fetchMoreData() {
-    if (page < totalPages) {
+  // Function to load more Pokémon when the scroll reaches the bottom
+  const loadMorePokemon = async () => {
+    try {
+      const response = await fetch(
+        `https://pokeapi.co/api/v2/pokemon?limit=20&offset=${page * 20}`
+      )
+      const data = await response.json()
+      const results = data.results
+
+      const getPokemon = await Promise.all(
+        results.map(async pokemon => {
+          const id = pokemon.url.split('/')[6]
+          const image = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`
+
+          return {
+            id,
+            name: pokemon.name,
+            image,
+          }
+        })
+      )
+
+      setPokemonData(prevData => [...prevData, ...getPokemon])
+      setAllPokemonData(prevData => [...prevData, ...getPokemon])
       setPage(prevPage => prevPage + 1)
+    } catch (error) {
+      console.error(error)
     }
   }
 
   return (
     <div className='w-[90%] mx-auto'>
-      <h2 className='text-center text-3xl font-semibold'>Poke Desk</h2>
-      {/* <input
-        className='text-black border-2 border-solid border-teal-400'
+      {/* <h2 className='text-center text-3xl font-semibold'>Poke Desk</h2> */}
+      <input
+        className='text-black mt-4'
         type='text'
         placeholder='Enter Pokémon Name'
         onChange={e => handleSearch(e.target.value)}
-      /> */}
-      <div class='relative rounded-md mt-3'>
-        <input
-          type='text'
-          class='w-full pl-10 pr-4 py-2 rounded-md bg-white border border-gray-300 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-base'
-          placeholder='Search...'
-          onChange={e => handleSearch(e.target.value)}
-        />
-        <div class='absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none'>
-          <svg
-            class='w-5 h-5 text-gray-400'
-            fill='none'
-            stroke='currentColor'
-            viewBox='0 0 24 24'
-            xmlns='http://www.w3.org/2000/svg'
-          >
-            <path
-              strokeLinecap='round'
-              strokeLinejoin='round'
-              strokeWidth='2'
-              d='M21 21l-4-4'
-            />
-            <path
-              strokeLinecap='round'
-              strokeLinejoin='round'
-              strokeWidth='2'
-              d='M15 11a4 4 0 11-8 0 4 4 0 018 0z'
-            />
-          </svg>
-        </div>
-      </div>
+      />
 
-      {loading ? (
+      {loading && !searchTerm ? (
+        // Show the loader while data is being fetched
         <Loader />
       ) : (
         <InfiniteScroll
-          dataLength={pokemonData.length}
-          next={fetchMoreData}
-          hasMore={page < totalPages}
-          loader={<Loader />}
+          dataLength={pokemonData.length} // This is important to track the length of the data
+          next={loadMorePokemon} // Function to load more Pokémon
+          hasMore={true} // Set to true to enable infinite scrolling
+          loader={<Loader />} // Loader component to display while loading more Pokémon
+          endMessage={<p className='text-center'>No more Pokémon to load.</p>} // Message to display when all Pokémon are loaded
         >
           <div className='flex flex-wrap pt-10 mx-auto'>
             {pokemonData.map((pokemon, i) => (
