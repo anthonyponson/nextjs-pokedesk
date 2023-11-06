@@ -8,17 +8,6 @@ import InfiniteScroll from 'react-infinite-scroll-component'
 
 // Loader component
 
-function Loader() {
-  return (
-    <div className='flex flex-col items-center justify-center h-screen'>
-      <div className='animate-spin rounded-full h-16 w-16 border-t-2 border-blue-500 border-4'>
-        <Image src={loader} height={100} width={100} alt='img' />
-      </div>
-      <p className='mt-2 text-gray-600 text-lg'>Loading...</p>
-    </div>
-  )
-}
-
 function PokemonGrid() {
   const [pokemonData, setPokemonData] = useState([])
   const [allPokemonData, setAllPokemonData] = useState([])
@@ -62,6 +51,7 @@ function PokemonGrid() {
 
   function handleSearch(searchTerm) {
     setSearchTerm(searchTerm) // Update the searchTerm state
+
     if (!searchTerm) {
       setPokemonData(allPokemonData)
     } else {
@@ -72,9 +62,12 @@ function PokemonGrid() {
     }
   }
 
-  // Function to load more Pokémon when the scroll reaches the bottom
   const loadMorePokemon = async () => {
     try {
+      if (searchTerm) {
+        return // If there is a search term, do not load more Pokémon
+      }
+
       const response = await fetch(
         `https://pokeapi.co/api/v2/pokemon?limit=20&offset=${page * 20}`
       )
@@ -102,6 +95,8 @@ function PokemonGrid() {
     }
   }
 
+  // ...
+
   return (
     <div className='w-[90%] mx-auto'>
       {/* <h2 className='text-center text-3xl font-semibold'>Poke Desk</h2> */}
@@ -111,40 +106,33 @@ function PokemonGrid() {
         placeholder='Enter Pokémon Name'
         onChange={e => handleSearch(e.target.value)}
       />
-
-      {loading && !searchTerm ? (
-        // Show the loader while data is being fetched
-        <Loader />
-      ) : (
-        <InfiniteScroll
-          dataLength={pokemonData.length} // This is important to track the length of the data
-          next={loadMorePokemon} // Function to load more Pokémon
-          hasMore={true} // Set to true to enable infinite scrolling
-          loader={<Loader />} // Loader component to display while loading more Pokémon
-          endMessage={<p className='text-center'>No more Pokémon to load.</p>} // Message to display when all Pokémon are loaded
-        >
-          <div className='flex flex-wrap pt-10 mx-auto'>
-            {pokemonData.map((pokemon, i) => (
-              <div className='w-full sm:w-1/2 md:w-1/3 px-2' key={i}>
-                <Link className='block' href={`/${pokemon.name}`}>
-                  <div className='bg-gray-200 p-2 rounded mb-4'>
-                    <h2 className='text-xl text-center text-blue-950 font-semibold'>
-                      {pokemon.name}
-                    </h2>
-                    <img
-                      className='mx-auto'
-                      height={150}
-                      width={150}
-                      src={pokemon.image}
-                      alt={pokemon.name}
-                    />
-                  </div>
-                </Link>
-              </div>
-            ))}
-          </div>
-        </InfiniteScroll>
-      )}
+      <InfiniteScroll
+        dataLength={pokemonData.length} // This is important to track the length of the data
+        next={loadMorePokemon} // Function to load more Pokémon
+        hasMore={true} // Set to true to enable infinite scrolling
+        endMessage={<p className='text-center'>No more Pokémon to load.</p>} // Message to display when all Pokémon are loaded
+      >
+        <div className='flex flex-wrap pt-10 mx-auto'>
+          {pokemonData.map((pokemon, i) => (
+            <div className='w-full sm:w-1/2 md:w-1/3 px-2' key={i}>
+              <Link className='block' href={`/${pokemon.name}`}>
+                <div className='bg-gray-200 p-2 rounded mb-4'>
+                  <h2 className='text-xl text-center text-blue-950 font-semibold'>
+                    {pokemon.name}
+                  </h2>
+                  <img
+                    className='mx-auto'
+                    height={150}
+                    width={150}
+                    src={pokemon.image}
+                    alt={pokemon.name}
+                  />
+                </div>
+              </Link>
+            </div>
+          ))}
+        </div>
+      </InfiniteScroll>
     </div>
   )
 }

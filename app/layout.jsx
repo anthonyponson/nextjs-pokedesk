@@ -19,7 +19,7 @@ export default function RootLayout({ children }) {
       <body className={`inter.className`}>
         <Providers>
           <Navbar />
-          <Suspense fallback={<Loading />}>{children}</Suspense>
+          {children}
         </Providers>
       </body>
     </html>
