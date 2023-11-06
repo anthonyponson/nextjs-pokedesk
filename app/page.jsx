@@ -5,8 +5,7 @@ import Navbar from './components/Navbar'
 export default async function Home() {
   await new Promise(resolve => setTimeout(resolve, 3000))
   return (
-    <div >
-      
+    <div>
       <PokemonGrid />
     </div>
   )

@@ -24,7 +24,7 @@ function PokemonGrid() {
   const [allPokemonData, setAllPokemonData] = useState([])
   const [loading, setLoading] = useState(true)
   const [page, setPage] = useState(1)
-  const [searchTerm, setSearchTerm] = useState("")
+  const [searchTerm, setSearchTerm] = useState('')
 
   useEffect(() => {
     const fetchData = async () => {
@@ -61,14 +61,14 @@ function PokemonGrid() {
   }, [])
 
   function handleSearch(searchTerm) {
-    setSearchTerm(searchTerm); // Update the searchTerm state
+    setSearchTerm(searchTerm) // Update the searchTerm state
     if (!searchTerm) {
-      setPokemonData(allPokemonData);
+      setPokemonData(allPokemonData)
     } else {
-      const filteredPokemon = allPokemonData.filter((poke) =>
+      const filteredPokemon = allPokemonData.filter(poke =>
         poke.name.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-      setPokemonData(filteredPokemon);
+      )
+      setPokemonData(filteredPokemon)
     }
   }
 
@@ -106,7 +106,7 @@ function PokemonGrid() {
     <div className='w-[90%] mx-auto'>
       {/* <h2 className='text-center text-3xl font-semibold'>Poke Desk</h2> */}
       <input
-        className='text-black mt-4'
+        className='text-black mt-4 border rounded-md p-2 focus:outline-none focus:border-teal-400'
         type='text'
         placeholder='Enter Pokémon Name'
         onChange={e => handleSearch(e.target.value)}
@@ -133,6 +133,8 @@ function PokemonGrid() {
                     </h2>
                     <img
                       className='mx-auto'
+                      height={150}
+                      width={150}
                       src={pokemon.image}
                       alt={pokemon.name}
                     />

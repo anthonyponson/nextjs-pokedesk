@@ -3,6 +3,8 @@ import './globals.css'
 import { Inter } from 'next/font/google'
 import Loading from './loading'
 import Navbar from './components/Navbar'
+import { Providers } from './providers'
+import { ThemeSwitcher } from './components/themeSwitcher'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -14,9 +16,11 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang='en'>
-      <body className={inter.className}>
-        <Navbar />
-        <Suspense fallback={<Loading />}>{children}</Suspense>
+      <body className={`inter.className`}>
+        <Providers>
+          <Navbar />
+          <Suspense fallback={<Loading />}>{children}</Suspense>
+        </Providers>
       </body>
     </html>
   )

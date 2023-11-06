@@ -1,24 +1,24 @@
 'use client'
 
 import React, { useState } from 'react'
-import { BsFillMoonStarsFill } from 'react-icons/bs'
+import { useTheme } from 'next-themes'
+import { BsMoonFill, BsSunFill } from 'react-icons/bs'
+import Link from 'next/link'
 
 function Navbar() {
-  const [dark, setDark] = useState(false)
-
-  const toggleDarkMode = () => {
-    setDark(!dark) // Toggle the dark mode state
-  }
+  const { theme, setTheme } = useTheme()
 
   return (
-    <div className={dark ? 'dark' : ''}>
-      <div className='w-full bg-neutral-100 p-4 dark:bg-gray-900'>
+    <div>
+      <div className='w-full p-4 dark:bg-teal-400'>
         <nav className='container mx-auto flex justify-between items-center'>
-          <h1 className='text-2xl font-bold text-gray-900 dark:text-teal-400'>PokeDesk</h1>
-          <BsFillMoonStarsFill
-            className='cursor-pointer text-gray-900 dark:text-teal-400'
-            onClick={toggleDarkMode}
-          />
+          <h1 className='text-2xl font-bold text-gray-900 dark:text-neutral-50'>
+            <Link href='/'>PokeDesk</Link>
+          </h1>
+
+          <button onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}>
+            {theme === 'dark' ? <BsSunFill /> : <BsMoonFill />}
+          </button>
         </nav>
       </div>
     </div>

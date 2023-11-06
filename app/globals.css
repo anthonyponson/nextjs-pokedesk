@@ -2,15 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
-progress{
-  -webkit-transition: all 1s cubic-bezier(0.075, 0.82, 0.165 , 1) ;
-  -o-transition: all 1s cubic-bezier(0.075, 0.82, 0.165 , 1) ;
-  transition: all 1s cubic-bezier(0.075, 0.82, 0.165 , 1) ;
+progress {
+  -webkit-transition: all 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+  -o-transition: all 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+  transition: all 1s cubic-bezier(0.075, 0.82, 0.165, 1);
 }
 progress::-webkit-progress-bar {
-    background-color: #dfdfdf;
-  }
-  progress::-webkit-progress-value {
-    background-color: #5eead4;;
-  }
- 
+  background-color: #dfdfdf;
+}
+progress::-webkit-progress-value {
+  background-color: #5eead4;
+}

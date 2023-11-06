@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
+import Navbar from './Navbar'
 
 function PokemonList() {
   const [pokemons, setPokemons] = useState([])
@@ -45,6 +46,7 @@ function PokemonList() {
             <span>{pokemon.name}</span>
           </li>
         ))}
+        <Navbar />
       </ul>
     </div>
   )
