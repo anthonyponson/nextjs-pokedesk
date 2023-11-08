@@ -8,6 +8,7 @@ function Page() {
   const [pokemon, setPokemon] = useState(null)
   const [abilities, setAbilities] = useState([])
   const [stats, setStats] = useState([])
+  const [evolutionChain, setEvolutionChain] = useState([]);
   const router = useParams()
   const name = router
 

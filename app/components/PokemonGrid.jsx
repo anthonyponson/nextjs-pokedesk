@@ -78,9 +78,6 @@ function PokemonGrid() {
   // ...
 
   const loadMorePokemon = async () => {
-    if (searchTerm) {
-      setLoading(false)
-    }
     try {
       // Fetch more Pokémon data
       const response = await fetch(
@@ -125,6 +122,7 @@ function PokemonGrid() {
         <Loader />
       ) : (
         <InfiniteScroll
+          loader={<Loader />}
           dataLength={pokemonData.length} // This is important to track the length of the data
           next={loadMorePokemon} // Function to load more Pokémon
           hasMore={true} // Set to true to enable infinite scrolling
