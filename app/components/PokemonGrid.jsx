@@ -22,15 +22,13 @@ function Loader() {
 function PokemonGrid() {
   const [pokemonData, setPokemonData] = useState([])
   const [allPokemonData, setAllPokemonData] = useState([])
-  const [loading, setLoading] = useState(true)
   const [page, setPage] = useState(1)
   const [searchTerm, setSearchTerm] = useState('')
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        setLoading(true) // Set loading to true before fetching data
-
         const response = await fetch(
           'https://pokeapi.co/api/v2/pokemon?limit=20' // Fetch only 20 Pokémon initially
         )
@@ -52,10 +50,8 @@ function PokemonGrid() {
         )
         setPokemonData(getPokemon)
         setAllPokemonData(getPokemon) // Store all Pokémon data here
-        setLoading(false) // Set loading to false when data is fetched
       } catch (error) {
         console.error(error)
-        setLoading(false) // Set loading to false on error
       }
     }
 
@@ -63,7 +59,7 @@ function PokemonGrid() {
   }, [])
 
   function handleSearch(searchTerm) {
-    setSearchTerm(searchTerm) // Update the searchTerm state
+    setSearchTerm(searchTerm)
     if (!searchTerm) {
       setPokemonData(allPokemonData)
     } else {
@@ -74,10 +70,23 @@ function PokemonGrid() {
     }
   }
 
-  // Function to load more Pokémon when the scroll reaches the bottom
-  // ...
+  const handleScroll = () => {
+    if (
+      window.innerHeight + document.documentElement.scrollTop !==
+        document.documentElement.offsetHeight ||
+      loading
+    ) {
+      return
+    }
+    fetchData()
+  }
 
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [loading])
   const loadMorePokemon = async () => {
+    setLoading(true)
     try {
       // Fetch more Pokémon data
       const response = await fetch(
@@ -117,39 +126,33 @@ function PokemonGrid() {
         placeholder='Enter Pokémon Name'
         onChange={e => handleSearch(e.target.value)}
       />
-
-      {loading ? ( // Show Loader component when loading is true
-        <Loader />
-      ) : (
-        <InfiniteScroll
-          loader={<Loader />}
-          dataLength={pokemonData.length} // This is important to track the length of the data
-          next={loadMorePokemon} // Function to load more Pokémon
-          hasMore={true} // Set to true to enable infinite scrolling
-          endMessage={<p className='text-center'>No more Pokémon to load.</p>} // Message to display when all Pokémon are loaded
-        >
-          <div className='flex flex-wrap pt-10 mx-auto'>
-            {pokemonData.map((pokemon, i) => (
-              <div className='w-full sm:w-1/2 md:w-1/3 px-2' key={i}>
-                <Link className='block' href={`/${pokemon.name}`}>
-                  <div className='bg-gray-200 p-2 rounded mb-4'>
-                    <h2 className='text-xl text-center text-blue-950 font-semibold'>
-                      {pokemon.name}
-                    </h2>
-                    <img
-                      className='mx-auto'
-                      height={150}
-                      width={150}
-                      src={pokemon.image}
-                      alt={pokemon.name}
-                    />
-                  </div>
-                </Link>
-              </div>
-            ))}
-          </div>
-        </InfiniteScroll>
-      )}
+      <InfiniteScroll
+        dataLength={pokemonData.length} // This is important to track the length of the data
+        next={loadMorePokemon} // Function to load more Pokémon
+        hasMore={true} // Set to true to enable infinite scrolling
+        endMessage={<p className='text-center'>No more Pokémon to load.</p>} // Message to display when all Pokémon are loaded
+      >
+        <div className='flex flex-wrap pt-10 mx-auto'>
+          {pokemonData.map((pokemon, i) => (
+            <div className='w-full sm:w-1/2 md:w-1/3 px-2' key={i}>
+              <Link className='block' href={`/${pokemon.name}`}>
+                <div className='bg-gray-200 p-2 rounded mb-4'>
+                  <h2 className='text-xl text-center text-blue-950 font-semibold'>
+                    {pokemon.name}
+                  </h2>
+                  <img
+                    className='mx-auto'
+                    height={150}
+                    width={150}
+                    src={pokemon.sprites.other.home.front_default}
+                    alt={pokemon.name}
+                  />
+                </div>
+              </Link>
+            </div>
+          ))}
+        </div>
+      </InfiniteScroll>
     </div>
   )
 }
