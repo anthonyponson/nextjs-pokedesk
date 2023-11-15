@@ -1,7 +1,9 @@
+import SearchBox from './components/searchBox'
+
 async function getData() {
   const response = await fetch('https://pokeapi.co/api/v2/pokemon?limit=50')
   const data = await response.json()
-  
+
   const promises = data.results.map(async pokemon => {
     const pokemonResponse = await fetch(pokemon.url)
     return pokemonResponse.json()
@@ -10,13 +12,22 @@ async function getData() {
   return pokemonList
 }
 
-async function page() {
+async function page({ searchParams }) {
+  const search =
+    typeof searchParams.search === 'string' ? searchParams.search : ''
+
   const pokeData = await getData()
-  console.log(pokeData, 'hello')
+
+  // Filter the pokeData based on the search parameter
+  const filteredData = pokeData.filter(pokemon =>
+    pokemon.name.toLowerCase().includes(search.toLowerCase())
+  )
+
   return (
     <div>
-      <h1>Hello World!</h1>
-      {pokeData.map((pokemon, i) => (
+      <SearchBox />
+
+      {filteredData.map((pokemon, i) => (
         <div key={i}>
           <h2>{pokemon.name}</h2>
           <img src={pokemon.sprites.front_default} alt={pokemon.name} />
@@ -27,27 +38,3 @@ async function page() {
 }
 
 export default page
-
-// getPokemon() {
-//   const getPokemon = async () => {
-//     const response = await fetch('https://pokeapi.co/api/v2/pokemon?limit=50')
-//     const data = await response.json()
-//     const promises = data.results.map(async pokemon => {
-//       const pokemonResponse = await fetch(pokemon.url)
-//       return pokemonResponse.json()
-//     })
-//     const pokemonList = await Promise.all(promises)
-//     setPokemonData(pokemonList)
-//   }
-
-//   getPokemon()
-// }, [])
-
-// {
-//   pokemonData.map((pokemon, index) => (
-//     <div key={index}>
-//       <h1>{pokemon.name}</h1>
-//       <img src={pokemon.sprites.front_default} alt={pokemon.name} />
-//     </div>
-//   ))
-// }

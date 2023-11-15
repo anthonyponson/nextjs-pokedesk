@@ -69,22 +69,6 @@ function PokemonGrid() {
       setPokemonData(filteredPokemon)
     }
   }
-
-  const handleScroll = () => {
-    if (
-      window.innerHeight + document.documentElement.scrollTop !==
-        document.documentElement.offsetHeight ||
-      loading
-    ) {
-      return
-    }
-    fetchData()
-  }
-
-  useEffect(() => {
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [loading])
   const loadMorePokemon = async () => {
     setLoading(true)
     try {
