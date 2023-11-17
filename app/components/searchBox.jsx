@@ -13,12 +13,12 @@ function SearchBox() {
   }, [searchTerm, router])
 
   return (
-    <div>
+    <div className='py-6'>
       <input
         type='text'
         value={searchTerm}
         onChange={e => setSearchTerm(e.target.value)}
-        className='border border-gray-300 p-2 rounded-md focus:outline-none focus:ring focus:border-blue-500'
+        className='border-2 border-gray-300 p-2 rounded-md dark:bg-neutral-700 focus:outline-none'
       />
     </div>
   )
