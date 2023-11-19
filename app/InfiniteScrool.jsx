@@ -12,11 +12,16 @@ function InfiniteScrool({ initialPokemon, search }) {
 
   async function loadMoreData() {
     const next = page + 1
-    const pokeData = await fetchData()
-    setPokemon(pokeData)
+    console.log(next)
+    const pokeData = await fetchData({ page: next })
+    if (pokeData) {
+      console.log(next, 'next')
+      setPage(next)
+      setPokemon(prev => [...prev, ...pokeData])
+    }
     console.log(pokeData)
   }
-  // Filter the pokeData based on the search parameter
+  // Filter the pokemon based on the search parameter
   const filteredData = pokemon.filter(pokemon =>
     pokemon.name.toLowerCase().includes(search.toLowerCase())
   )
@@ -25,7 +30,7 @@ function InfiniteScrool({ initialPokemon, search }) {
     if (inView) {
       loadMoreData()
     }
-  }, [])
+  }, [inView])
 
   return (
     <>

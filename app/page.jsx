@@ -4,7 +4,7 @@ import { fetchData } from './actions'
 import InfiniteScrool from './InfiniteScrool'
 
 async function getData() {
-  const response = await fetch('https://pokeapi.co/api/v2/pokemon')
+  const response = await fetch('https://pokeapi.co/api/v2/pokemon?limit=1100')
   const data = await response.json()
 
   const promises = data.results.map(async pokemon => {
@@ -19,9 +19,7 @@ async function page({ searchParams }) {
   const search =
     typeof searchParams.search === 'string' ? searchParams.search : ''
 
-  const pokeData = await fetchData()
-
-  console.log(pokeData, 'vbvjvb bvlj bvlj ')
+  const pokeData = await fetchData({ search })
 
   // Filter the pokeData based on the search parameter
   const filteredData = pokeData.filter(pokemon =>
