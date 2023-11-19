@@ -27,7 +27,7 @@ function InfiniteScrool({ initialPokemon, search }) {
   )
 
   useEffect(() => {
-    if (inView) {
+    if (inView && search === '') {
       loadMoreData()
     }
   }, [inView])
@@ -53,9 +53,11 @@ function InfiniteScrool({ initialPokemon, search }) {
         </div>
       ))}
 
-      <div ref={ref}>
-        <div className='border-t-4 border-blue-500 border-solid rounded-full h-12 w-12 animate-spin'></div>
-      </div>
+      {search === '' && (
+        <div ref={ref}>
+          <div className='border-t-4 border-blue-500 border-solid rounded-full h-12 w-12 animate-spin'></div>
+        </div>
+      )}
     </>
   )
 }
