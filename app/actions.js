@@ -14,7 +14,7 @@ async function getData({ page }) {
   const pokemonList = await Promise.all(promises)
   return pokemonList
 }
-export async function fetchData({ page = 1 }) {
+export async function fetchData({ page }) {
   const pokeData = await getData({ page: page })
   return pokeData
 }
