@@ -10,10 +10,12 @@ function InfiniteScrool({ initialPokemon, search }) {
   const [page, setPage] = useState(1)
   const [ref, inView] = useInView()
 
+  let start = Date.now()
+
   async function loadMoreData() {
     const next = page + 1
     console.log(next)
-    const pokeData = await fetchData({ page: next })
+    const pokeData = await fetchData({ page: next, limit: 20 })
     if (pokeData) {
       console.log(next, 'next')
       setPage(next)
@@ -21,6 +23,10 @@ function InfiniteScrool({ initialPokemon, search }) {
     }
     console.log(pokeData)
   }
+
+  let timeTaken = Date.now() - start
+  console.log('total time taken' + ' ' + timeTaken + ' ' + 'milliseconds')
+
   // Filter the pokemon based on the search parameter
   const filteredData = pokemon.filter(pokemon =>
     pokemon.name.toLowerCase().includes(search.toLowerCase())

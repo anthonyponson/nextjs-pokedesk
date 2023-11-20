@@ -1,9 +1,8 @@
 'use server'
 
-async function getData({ page }) {
-  console.log(page, 'page')
+async function getData({ page, limit }) {
   const response = await fetch(
-    `https://pokeapi.co/api/v2/pokemon?limit=20&offset=${page * 20}`
+    `https://pokeapi.co/api/v2/pokemon?limit=${limit}&offset=${page * limit}`
   )
   const data = await response.json()
 
@@ -14,7 +13,8 @@ async function getData({ page }) {
   const pokemonList = await Promise.all(promises)
   return pokemonList
 }
-export async function fetchData({ page }) {
-  const pokeData = await getData({ page: page })
+
+export async function fetchData({ page, limit }) {
+  const pokeData = await getData({ page, limit })
   return pokeData
 }
