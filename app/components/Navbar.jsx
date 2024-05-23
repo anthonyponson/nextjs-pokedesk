@@ -5,6 +5,7 @@ import { useTheme } from 'next-themes'
 import { BsMoonFill, BsSunFill } from 'react-icons/bs'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import SearchBox from './searchBox'
 
 function Navbar() {
   const { theme, setTheme } = useTheme()
@@ -16,7 +17,7 @@ function Navbar() {
           <h1 className='text-2xl font-bold text-gray-900 dark:text-neutral-50'>
             <Link href='/'>PokeDesk</Link>
           </h1>
-
+          <SearchBox />
           <button onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}>
             {theme === 'dark' ? <BsSunFill /> : <BsMoonFill />}
           </button>
