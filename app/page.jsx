@@ -1,13 +1,13 @@
-import Link from 'next/link'
-import SearchBox from './components/searchBox'
-import { fetchData } from './actions'
-import InfiniteScrool from './InfiniteScrool'
+import Link from "next/link"
+import SearchBox from "./components/searchBox"
+import { fetchData } from "./actions"
+import InfiniteScrool from "./InfiniteScrool"
 
 async function getData() {
-  const response = await fetch('https://pokeapi.co/api/v2/pokemon?limit=1100')
+  const response = await fetch("https://pokeapi.co/api/v2/pokemon?limit=1100")
   const data = await response.json()
 
-  const promises = data.results.map(async pokemon => {
+  const promises = data.results.map(async (pokemon) => {
     const pokemonResponse = await fetch(pokemon.url)
     return pokemonResponse.json()
   })
@@ -17,20 +17,18 @@ async function getData() {
 
 async function page({ searchParams }) {
   const search =
-    typeof searchParams.search === 'string' ? searchParams.search : ''
+    typeof searchParams.search === "string" ? searchParams.search : ""
 
   const pokeData = await fetchData({ search })
 
   // Filter the pokeData based on the search parameter
-  const filteredData = pokeData.filter(pokemon =>
+  const filteredData = pokeData.filter((pokemon) =>
     pokemon.name.toLowerCase().includes(search.toLowerCase())
   )
 
   return (
-    <div className='px-5'>
-
-
-      <div className='flex flex-wrap pt-10 mx-auto'>
+    <div className="px-5">
+      <div className="flex flex-wrap pt-10 mx-auto">
         <InfiniteScrool initialPokemon={pokeData} search={search} />
       </div>
     </div>
