@@ -45,7 +45,7 @@ function Page() {
           </div>
         )}
 
-        <div className='w-full bg-white rounded-lg shadow-lg p-4'>
+        <div className='w-full bg-gray-150  rounded-lg shadow-lg p-4'>
           {stats.map((stat, i) => (
             <div className='mb-4' key={i}>
               <h2 className='text-xl font-bold text-gray-800'>
