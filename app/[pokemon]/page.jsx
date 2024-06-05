@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { useParams } from 'next/navigation'
+import { useParams, usePathname } from 'next/navigation'
 import { resolve } from 'styled-jsx/css'
 
 function Page() {
@@ -11,6 +11,8 @@ function Page() {
   const [evolutionChain, setEvolutionChain] = useState([]);
   const router = useParams()
   const name = router
+  const pathName = usePathname()
+  console.log(pathName,'fhjfbfjb')
 
   useEffect(() => {
     const fetchPokemon = async () => {
