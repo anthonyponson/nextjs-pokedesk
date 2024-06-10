@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import { fetchData } from "./actions"
 import { useInView } from "react-intersection-observer"
 import Link from "next/link"
+import Navbar from "./components/Navbar"
 
 function InfiniteScrool({ initialPokemon, search }) {
   const [pokemon, setPokemon] = useState(initialPokemon)

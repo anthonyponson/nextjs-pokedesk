@@ -2,6 +2,7 @@ import Link from "next/link"
 import SearchBox from "./components/searchBox"
 import { fetchData } from "./actions"
 import InfiniteScrool from "./InfiniteScrool"
+import Navbar from "./components/Navbar"
 
 async function getData() {
   const response = await fetch("https://pokeapi.co/api/v2/pokemon?limit=1100")
@@ -28,6 +29,7 @@ async function page({ searchParams }) {
 
   return (
     <div className="px-5">
+      <Navbar />
       <div className="flex flex-wrap pt-10 mx-auto">
         <InfiniteScrool initialPokemon={pokeData} search={search} />
       </div>

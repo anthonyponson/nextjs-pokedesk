@@ -4,10 +4,11 @@ import React, { useState } from 'react'
 import { useTheme } from 'next-themes'
 import { BsMoonFill, BsSunFill } from 'react-icons/bs'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import SearchBox from './searchBox'
 
 function Navbar() {
+  
   const { theme, setTheme } = useTheme()
 
   return (
