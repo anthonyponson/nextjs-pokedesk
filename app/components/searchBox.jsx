@@ -5,6 +5,7 @@ import React, { useState, useEffect } from "react"
 import { BsSearch } from "react-icons/bs"
 
 function SearchBox() {
+  
   const [searchTerm, setSearchTerm] = useState("")
   const router = useRouter()
   useEffect(() => {

@@ -8,13 +8,17 @@ import Navbar from "../components/Navbar"
 import Link from 'next/link'
 import { BsMoonFill, BsSunFill } from 'react-icons/bs'
 function Page() {
+ 
   const [pokemon, setPokemon] = useState(null)
   const [abilities, setAbilities] = useState([])
   const [stats, setStats] = useState([])
   const [evolutionChain, setEvolutionChain] = useState([])
   const router = useParams()
+
   const name = router
+
   const { theme, setTheme } = useTheme()
+  
   useEffect(() => {
     const fetchPokemon = async () => {
       try {

@@ -29,7 +29,7 @@ async function page({ searchParams }) {
 
   return (
     <div className="px-5">
-      <Navbar />
+      {/* <Navbar /> */}
       <div className="flex flex-wrap pt-10 mx-auto">
         <InfiniteScrool initialPokemon={pokeData} search={search} />
       </div>
