@@ -39,7 +39,7 @@ function Page() {
   return (
     <>
       <div className="flex ">
-        Pokemon
+        
         <div className="w-[80%] flex flex-col justify-center items-center mx-auto">
           <div>
             {pokemon && (
