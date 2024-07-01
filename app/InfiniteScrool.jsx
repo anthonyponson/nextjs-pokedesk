@@ -41,26 +41,27 @@ function InfiniteScrool({ initialPokemon, search }) {
 
   return (
     <>
-      <div className="flex flex-wrap -mx-2">
-        {filteredData.map((pokemon, i) => (
-          <div className="w-full sm:w-1/2 md:w-1/3 px-2" key={i}>
-            <Link className="block" href={`/${pokemon.name}`}>
-              <div className="bg-gray-200 p-2 rounded mb-4 dark:bg-teal-400">
-                <h2 className="text-xl text-center text-blue-950 font-semibold">
-                  {pokemon.name}
-                </h2>
-                <img
-                  className="mx-auto"
-                  height={150}
-                  width={150}
-                  src={pokemon.sprites.other.home.front_default}
-                  alt={pokemon.name}
-                />
-              </div>
-            </Link>
-          </div>
-        ))}
-      </div>
+   <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+  {filteredData.map((pokemon, i) => (
+    <div className="w-full px-2" key={i}>
+      <Link className="block" href={`/${pokemon.name}`}>
+        <div className="bg-gray-200 p-2 rounded mb-4 dark:bg-teal-400">
+          <h2 className="text-xl text-center text-blue-950 font-semibold">
+            {pokemon.name}
+          </h2>
+          <img
+            className="mx-auto"
+            height={150}
+            width={150}
+            src={pokemon.sprites.other.home.front_default}
+            alt={pokemon.name}
+          />
+        </div>
+      </Link>
+    </div>
+  ))}
+</div>
+
 
       {search === "" && (
         <div ref={ref} className="w-full flex justify-center mt-4">
