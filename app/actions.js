@@ -1,12 +1,23 @@
-'use server'
+// 'use server'
 
-async function getData({ page, limit }) {
+async function getData({ page, limit, search }) {
   const response = await fetch(
-    `https://pokeapi.co/api/v2/pokemon?limit=${limit}&offset=${page * limit}`
+    `https://pokeapi.co/api/v2/pokemon?limit=1100`
   )
   const data = await response.json()
 
-  const promises = data.results.map(async pokemon => {
+  let filteredResults = data.results
+  if (search) {
+    filteredResults = data.results.filter(pokemon => 
+      pokemon.name.toLowerCase().includes(search.toLowerCase())
+    )
+  }
+
+  const startIndex = page * limit
+  const endIndex = startIndex + limit
+  const paginatedResults = filteredResults.slice(startIndex, endIndex)
+
+  const promises = paginatedResults.map(async pokemon => {
     const pokemonResponse = await fetch(pokemon.url)
     return pokemonResponse.json()
   })
@@ -14,7 +25,7 @@ async function getData({ page, limit }) {
   return pokemonList
 }
 
-export async function fetchData({ page, limit }) {
-  const pokeData = await getData({ page, limit })
+export async function fetchData({ page, limit, search }) {
+  const pokeData = await getData({ page, limit, search })
   return pokeData
 }

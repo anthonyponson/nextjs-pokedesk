@@ -17,19 +17,11 @@ async function getData() {
 }
 
 async function page({ searchParams }) {
-  const search =
-    typeof searchParams.search === "string" ? searchParams.search : ""
-
-  const pokeData = await fetchData({ search })
-
-  // Filter the pokeData based on the search parameter
-  const filteredData = pokeData.filter((pokemon) =>
-    pokemon.name.toLowerCase().includes(search.toLowerCase())
-  )
+  const search = typeof searchParams.search === "string" ? searchParams.search : ""
+  const pokeData = await fetchData({ page: 0, limit: 20, search })
 
   return (
     <div className="px-5">
-      {/* <Navbar /> */}
       <div className="">
         <InfiniteScrool initialPokemon={pokeData} search={search} />
       </div>
