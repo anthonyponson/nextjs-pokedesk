@@ -21,7 +21,7 @@ async function page({ searchParams }) {
   const pokeData = await fetchData({ page: 0, limit: 20, search })
 
   return (
-    <div className="px-5">
+    <div className="px-5 pt-10">
       <div className="">
         <InfiniteScrool initialPokemon={pokeData} search={search} />
       </div>

@@ -40,7 +40,7 @@ function InfiniteScrool({ initialPokemon, search }) {
         {pokemon.map((pokemon, i) => (
           <div className="w-full px-2" key={i}>
             <Link className="block" href={`/${pokemon.name}`}>
-              <div className="bg-gray-200 p-2 rounded mb-4 dark:bg-teal-400">
+              <div className="bg-gray-200 p-2 rounded mb-4">
                 <h2 className="text-xl text-center text-blue-950 font-semibold">
                   {pokemon.name}
                 </h2>

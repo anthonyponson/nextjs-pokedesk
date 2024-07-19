@@ -6,7 +6,6 @@ import Navbar from "./components/Navbar"
 import { Providers } from "./providers"
 import { ThemeSwitcher } from "./components/themeSwitcher"
 
-
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata = {
@@ -15,12 +14,13 @@ export const metadata = {
 }
 
 export default function RootLayout({ children }) {
-  
   return (
     <html lang="en">
       <body className={`inter.className`}>
-        <Navbar />
-        <Providers>{children}</Providers>
+        <Providers>
+          <Navbar />
+          {children}
+        </Providers>
       </body>
     </html>
   )
