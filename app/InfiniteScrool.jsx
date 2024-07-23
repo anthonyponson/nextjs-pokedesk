@@ -6,27 +6,27 @@ import Link from "next/link"
 
 function getTypeStyle(type) {
   const typeStyles = {
-    normal: 'bg-gray-400/30 backdrop-blur-sm',
-    fire: 'bg-red-500/30 backdrop-blur-sm',
-    water: 'bg-blue-500/30 backdrop-blur-sm',
-    electric: 'bg-yellow-400/30 backdrop-blur-sm',
-    grass: 'bg-green-500/30 backdrop-blur-sm',
-    ice: 'bg-cyan-300/30 backdrop-blur-sm',
-    fighting: 'bg-orange-700/30 backdrop-blur-sm',
-    poison: 'bg-purple-600/30 backdrop-blur-sm',
-    ground: 'bg-yellow-600/30 backdrop-blur-sm',
-    flying: 'bg-indigo-400/30 backdrop-blur-sm',
-    psychic: 'bg-pink-500/30 backdrop-blur-sm',
-    bug: 'bg-lime-500/30 backdrop-blur-sm',
-    rock: 'bg-yellow-700/30 backdrop-blur-sm',
-    ghost: 'bg-indigo-600/30 backdrop-blur-sm',
-    dragon: 'bg-indigo-700/30 backdrop-blur-sm',
-    dark: 'bg-gray-700/30 backdrop-blur-sm',
-    steel: 'bg-gray-400/30 backdrop-blur-sm',
-    fairy: 'bg-pink-300/30 backdrop-blur-sm'
+    normal: "bg-gray-400/30 backdrop-blur-sm",
+    fire: "bg-red-500/30 backdrop-blur-sm",
+    water: "bg-blue-500/30 backdrop-blur-sm",
+    electric: "bg-yellow-400/30 backdrop-blur-sm",
+    grass: "bg-green-500/30 backdrop-blur-sm",
+    ice: "bg-cyan-300/30 backdrop-blur-sm",
+    fighting: "bg-orange-700/30 backdrop-blur-sm",
+    poison: "bg-purple-600/30 backdrop-blur-sm",
+    ground: "bg-yellow-600/30 backdrop-blur-sm",
+    flying: "bg-indigo-400/30 backdrop-blur-sm",
+    psychic: "bg-pink-500/30 backdrop-blur-sm",
+    bug: "bg-lime-500/30 backdrop-blur-sm",
+    rock: "bg-yellow-700/30 backdrop-blur-sm",
+    ghost: "bg-indigo-600/30 backdrop-blur-sm",
+    dragon: "bg-indigo-700/30 backdrop-blur-sm",
+    dark: "bg-gray-700/30 backdrop-blur-sm",
+    steel: "bg-gray-400/30 backdrop-blur-sm",
+    fairy: "bg-pink-300/30 backdrop-blur-sm",
     // Add more types as needed
   }
-  return typeStyles[type] || 'bg-gray-200/30 backdrop-blur-sm' // default style
+  return typeStyles[type] || "bg-gray-200/30 backdrop-blur-sm" // default style
 }
 
 function InfiniteScrool({ initialPokemon, search }) {
@@ -65,10 +65,17 @@ function InfiniteScrool({ initialPokemon, search }) {
         {pokemon.map((pokemon, i) => (
           <div className="w-full px-2" key={i}>
             <Link className="block" href={`/${pokemon.name}`}>
-              <div className={`p-2 rounded mb-4 ${getTypeStyle(pokemon.types[0].type.name)} shadow-lg`}>
-                <h2 className="text-xl text-center text-blue-950 font-semibold">
-                  {pokemon.name}
-                </h2>
+              <div
+                className={`p-2 rounded mb-4 ${getTypeStyle(
+                  pokemon.types[0].type.name
+                )} shadow-lg`}
+              >
+                <div className="flex justify-center">
+                  <h2 className="text-xl text-center text-blue-950 font-semibold bg-white py-2 px-4 rounded-full">
+                    {pokemon.name} 
+                  </h2>
+                </div>
+
                 <img
                   className="mx-auto"
                   height={150}
