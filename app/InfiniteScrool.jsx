@@ -70,10 +70,16 @@ function InfiniteScrool({ initialPokemon, search }) {
                   pokemon.types[0].type.name
                 )} shadow-lg`}
               >
-                <div className="flex justify-center">
-                  <h2 className="text-xl text-center text-blue-950 font-semibold bg-white py-2 px-4 rounded-full">
-                    {pokemon.name} 
+                <div className="flex justify-center items-center gap-4">
+                  <h2 className="text-lg text-center text-blue-950 font-semibold bg-white bg-opacity-20 backdrop-blur-md py-2 px-4 rounded-full mb-2">
+                    {pokemon.name}{" "}
+                    <span className="text-gray-600">#{pokemon.id}</span>
                   </h2>
+                  <p className="text-sm text-center bg-opacity-20 bg-white backdrop-blur-md py-2 px-4 rounded-full">
+                    {pokemon.types
+                      .map((typeInfo) => typeInfo.type.name)
+                      .join(", ")}
+                  </p>
                 </div>
 
                 <img
@@ -88,6 +94,7 @@ function InfiniteScrool({ initialPokemon, search }) {
           </div>
         ))}
       </div>
+
       {hasMore && (
         <div ref={ref} className="w-full flex justify-center mt-4">
           <div className="border-t-4 border-blue-500 border-solid rounded-full h-12 w-12 animate-spin"></div>
