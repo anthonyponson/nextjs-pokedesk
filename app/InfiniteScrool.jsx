@@ -71,15 +71,14 @@ function InfiniteScrool({ initialPokemon, search }) {
                 )} shadow-lg`}
               >
                 <div className="flex justify-center items-center gap-4">
-                  <h2 className="text-lg text-center text-blue-950 font-semibold bg-white bg-opacity-20 backdrop-blur-md py-2 px-4 rounded-full mb-2">
+                  <h2 className="text-lg text-center text-blue-950 font-semibold bg-white bg-opacity-20 backdrop-blur-md py-2 px-4 rounded-full">
                     {pokemon.name}{" "}
-                    <span className="text-gray-600">#{pokemon.id}</span>
                   </h2>
-                  <p className="text-sm text-center bg-opacity-20 bg-white backdrop-blur-md py-2 px-4 rounded-full">
+                  <h2 className="text-lg font-semibold text-blue-950 bg-opacity-20 bg-white backdrop-blur-md py-2 px-4 rounded-full">
                     {pokemon.types
                       .map((typeInfo) => typeInfo.type.name)
                       .join(", ")}
-                  </p>
+                  </h2>
                 </div>
 
                 <img

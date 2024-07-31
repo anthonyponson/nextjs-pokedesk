@@ -15,24 +15,24 @@ function Page() {
   const { theme, setTheme } = useTheme()
 
   const typeColors = {
-    fire: 'from-orange-500/80 to-red-600/80',
-    water: 'from-cyan-400/80 to-cyan-500/80',
-    grass: 'from-green-500/80 to-green-600/80',
-    electric: 'from-yellow-400/80 to-yellow-500/80',
-    ice: 'from-blue-200/80 to-blue-300/80',
-    fighting: 'from-red-600/80 to-red-700/80',
-    poison: 'from-purple-500/80 to-purple-600/80',
-    ground: 'from-yellow-600/80 to-yellow-700/80',
-    flying: 'from-indigo-200/80 to-indigo-300/80',
-    psychic: 'from-pink-500/80 to-pink-600/80',
-    bug: 'from-green-600/80 to-green-700/80',
-    rock: 'from-gray-600/80 to-gray-700/80',
-    ghost: 'from-purple-800/80 to-purple-900/80',
-    dragon: 'from-purple-600/80 to-purple-700/80',
-    dark: 'from-gray-700/80 to-gray-800/80',
-    steel: 'from-gray-400/80 to-gray-500/80',
-    fairy: 'from-pink-300/80 to-pink-400/80',
-    normal: 'from-gray-400/80 to-gray-500/80',
+    fire: 'from-orange-100 to-orange-200',
+    water: 'from-blue-100 to-blue-200',
+    grass: 'from-green-100 to-green-200',
+    electric: 'from-yellow-100 to-yellow-200',
+    ice: 'from-cyan-100 to-cyan-200',
+    fighting: 'from-red-100 to-red-200',
+    poison: 'from-purple-100 to-purple-200',
+    ground: 'from-amber-100 to-amber-200',
+    flying: 'from-indigo-100 to-indigo-200',
+    psychic: 'from-pink-100 to-pink-200',
+    bug: 'from-lime-100 to-lime-200',
+    rock: 'from-stone-100 to-stone-200',
+    ghost: 'from-violet-100 to-violet-200',
+    dragon: 'from-indigo-100 to-indigo-200',
+    dark: 'from-gray-200 to-gray-300',
+    steel: 'from-slate-100 to-slate-200',
+    fairy: 'from-rose-100 to-rose-200',
+    normal: 'from-neutral-100 to-neutral-200',
   }
 
   useEffect(() => {
@@ -53,66 +53,85 @@ function Page() {
   }, [name.pokemon])
 
   const getBackgroundColor = () => {
-    if (!pokemon || !pokemon.types || pokemon.types.length === 0) return 'from-gray-200/80 to-gray-300/80'
-    return typeColors[pokemon.types[0].type.name] || 'from-gray-200/80 to-gray-300/80'
+    if (!pokemon || !pokemon.types || pokemon.types.length === 0) return 'from-gray-100 to-gray-200'
+    return typeColors[pokemon.types[0].type.name] || 'from-gray-100 to-gray-200'
+  }
+
+  const getTextColor = () => {
+    if (!pokemon || !pokemon.types || pokemon.types.length === 0) return 'text-gray-800'
+    const type = pokemon.types[0].type.name
+    return type === 'dark' ? 'text-gray-800' : 'text-gray-700'
   }
   
   return (
-    <div className="min-h-screen bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
-      <div className={`max-w-3xl mx-auto bg-white/30 backdrop-blur-md rounded-xl shadow-lg overflow-hidden md:max-w-2xl`}>
-        <div className={`md:flex bg-gradient-to-br ${getBackgroundColor()}`}>
-          <div className={`md:flex-shrink-0`}>
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 py-12 px-4 sm:px-6 lg:px-8 transition-colors duration-200">
+      <div className={`max-w-4xl mx-auto bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden transition-colors duration-200`}>
+        <div className={`md:flex bg-gradient-to-br ${getBackgroundColor()} p-6 md:p-8`}>
+          <div className={`md:flex-shrink-0 flex items-center justify-center mb-6 md:mb-0 md:mr-8`}>
             {pokemon && (
-              <div className={`h-48 w-full md:w-48 flex items-center justify-center`}>
-                <img
-                  className="h-32 w-32 object-contain"
-                  src={pokemon.sprites.other.home.front_default}
-                  alt={pokemon.name}
-                />
-              </div>
+              <img
+                className="h-48 w-48 object-contain filter drop-shadow-lg transition-transform duration-300 hover:scale-110"
+                src={pokemon.sprites.other.home.front_default}
+                alt={pokemon.name}
+              />
             )}
           </div>
-          <div className="p-8">
+          <div className="flex-grow">
             {pokemon && (
-              <div className="uppercase tracking-wide text-sm text-white font-semibold">
-                {pokemon.types.map(type => type.type.name).join(', ')}
+              <div className="flex flex-wrap gap-2 mb-4">
+                {pokemon.types.map((type, index) => (
+                  <span key={index} className={`px-3 py-1 rounded-full text-sm font-medium bg-white/40 ${getTextColor()}`}>
+                    {type.type.name}
+                  </span>
+                ))}
               </div>
             )}
-            <h1 className="block mt-1 text-lg leading-tight font-medium text-white capitalize">
+            <h1 className={`text-3xl font-bold capitalize mb-4 ${getTextColor()}`}>
               {name.pokemon}
             </h1>
-            <div className="mt-4">
-              <h2 className="text-xl font-bold mb-2 text-white">Stats</h2>
-              {stats.map((stat, i) => (
-                <div className="mb-3" key={i}>
-                  <div className="flex justify-between mb-1">
-                    <span className="text-base font-medium text-white capitalize">
-                      {stat.stat.name}
-                    </span>
-                    <span className="text-sm font-medium text-white">
-                      {stat.base_stat}
-                    </span>
+            <div className="grid md:grid-cols-2 gap-8">
+              <div>
+                <h2 className={`text-xl font-semibold mb-4 ${getTextColor()}`}>Stats</h2>
+                {stats.map((stat, i) => (
+                  <div className="mb-3" key={i}>
+                    <div className="flex justify-between mb-1">
+                      <span className={`text-sm font-medium ${getTextColor()} capitalize`}>
+                        {stat.stat.name}
+                      </span>
+                      <span className={`text-sm font-medium ${getTextColor()}`}>
+                        {stat.base_stat}
+                      </span>
+                    </div>
+                    <div className="w-full bg-white/50 rounded-full h-2">
+                      <div
+                        className="bg-gray-600 h-2 rounded-full transition-all duration-500 ease-out"
+                        style={{ width: `${(stat.base_stat / 255) * 100}%` }}
+                      ></div>
+                    </div>
                   </div>
-                  <div className="w-full bg-gray-200/50 rounded-full h-2.5">
-                    <div
-                      className="bg-blue-600 h-2.5 rounded-full"
-                      style={{ width: `${(stat.base_stat / 255) * 100}%` }}
-                    ></div>
-                  </div>
-                </div>
-              ))}
-            </div>
-            <div className="mt-4">
-              <h2 className="text-xl font-bold mb-2 text-white">Abilities</h2>
-              <ul className="list-disc list-inside text-white">
-                {abilities.map((ability, index) => (
-                  <li key={index} className="capitalize">{ability.ability.name}</li>
                 ))}
-              </ul>
+              </div>
+              <div>
+                <h2 className={`text-xl font-semibold mb-4 ${getTextColor()}`}>Abilities</h2>
+                <ul className="space-y-2">
+                  {abilities.map((ability, index) => (
+                    <li key={index} className={`${getTextColor()} capitalize flex items-center`}>
+                      <span className="mr-2">•</span>
+                      {ability.ability.name}
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
           </div>
         </div>
       </div>
+      <button
+        onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+        className="fixed bottom-5 right-5 p-3 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 transition-colors duration-200"
+      >
+        {theme === 'dark' ? <BsSunFill size={24} /> : <BsMoonFill size={24} />}
+      </button>
     </div>
   )
 }
