@@ -20,9 +20,7 @@ function Navbar() {
             <Link href="/">PokeDesk</Link>
           </h1>
           {!shouldHideNavbar && <SearchBox />}
-          <button onClick={() => setTheme(theme === "dark" ? "light" : "dark")}>
-            {theme === "dark" ? <BsSunFill /> : <BsMoonFill />}
-          </button>
+  
         </nav>
       </div>
     </div>
